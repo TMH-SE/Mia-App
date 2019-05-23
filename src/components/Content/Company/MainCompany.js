@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import AddDataAction from './AddDataAction'
 import DataList from './DataList'
 
-export default class MainData extends Component {
+export default class MainCompany extends Component {
   render () {
     return (
       <div>

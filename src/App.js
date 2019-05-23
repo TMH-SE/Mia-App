@@ -5,7 +5,7 @@ import MenuSider from './components/MenuSider/MenuSider'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import TodoList from './components/Content/Todo/TodoList'
 import Profile from './components/Content/Profile/Profile'
-import MainData from './components/Content/CompanyData/MainData'
+import MainCompany from './components/Content/Company/MainCompany'
 import MenuMobile from './components/MenuSider/MenuMobile'
 
 const { Header, Sider, Content } = Layout
@@ -85,7 +85,7 @@ export default class App extends Component {
                 minHeight: '80vh'
               }}
             >
-              <Route exact path='/' render={() => <MainData isMobile={this.state.isMobile} />} />
+              <Route exact path='/' render={() => <MainCompany isMobile={this.state.isMobile} />} />
               <Route path='/todo' component={TodoList} />
               <Route path='/profile' component={Profile} />
             </Content>
