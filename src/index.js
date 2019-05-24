@@ -9,7 +9,7 @@ import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
 import * as serviceWorker from './serviceWorker'
 
-const client = new ApolloClient({ uri: 'https://dgfu0.sse.codesandbox.io/graphql' })
+const client = new ApolloClient({ uri: 'https://ptvqk.sse.codesandbox.io/graphql' })
 
 const T = () => (
   <ApolloProvider client={client} >

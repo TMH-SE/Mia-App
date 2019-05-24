@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
-import AddDataAction from './AddDataAction'
+import CompanyAction from './CompanyAction'
 import DataList from './DataList'
 
 export default class MainCompany extends Component {
   render () {
+    const { isMobile } = this.props
     return (
       <div>
         <div style={{ marginBottom: '15px' }}>
-          <AddDataAction isMobile={this.props.isMobile} />
+          <CompanyAction isMobile={isMobile} />
         </div>
         <DataList />
       </div>

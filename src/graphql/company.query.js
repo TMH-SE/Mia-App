@@ -45,6 +45,14 @@ export const ADD_COMPANY = gql`
   }
 `
 
+export const DELETE_COMPANY = gql`
+  mutation deleteCompany ($id: String) {
+    deleteCompany (companyId: $id){
+      id
+    }
+  }
+`
+
 export const UPDATE_COMPANY = gql`
   mutation updateCompany ($update: UpdateCompanyDto){
     updateCompany(updateCompanyDto: $update){

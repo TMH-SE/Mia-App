@@ -3,14 +3,13 @@ import { Button, Form, Input, notification, Drawer, Radio } from 'antd'
 import { graphql, compose } from 'react-apollo'
 import { ADD_COMPANY, GET_ALL_COMPANY } from '../../../graphql/company.query'
 
-class AddDataAction extends Component {
+class CompanyAction extends Component {
   constructor (props) {
     super(props)
     this.state = {
       visible: false
     }
     this.name = ''
-    this.address = ''
     this.inputText = React.createRef()
     this.showDrawer = this.showDrawer.bind(this)
     this.closeDrawer = this.closeDrawer.bind(this)
@@ -66,6 +65,7 @@ class AddDataAction extends Component {
             placement: 'topLeft'
           })
           this.props.form.resetFields()
+          this.name.focus()
         }
         )
           .catch(err => console.log(err))
@@ -81,10 +81,18 @@ class AddDataAction extends Component {
       form.setFieldsValue({ phone: value.slice(0, value.length - 1) })
     } else {
       if (value && !regexValid.test(value)) {
-        console.log(value)
         callback('The input not valid Vietnam phone number')
       } else {
-        callback()
+        let flag = false
+        this.props.data.companies.forEach(c => {
+          if (c.phone === value) {
+            callback('The phone already exists')
+            flag = true
+          }
+        })
+        if (!flag) {
+          callback()
+        }
       }
     }
   }
@@ -108,7 +116,7 @@ class AddDataAction extends Component {
                   required: true,
                   message: 'Please input company name'
                 }]
-              })(<Input ref={node => (this.name = node)} autoFocus={this.state.visible} />)}
+              })(<Input ref={node => (this.name = node)} />)}
             </Form.Item>
             <Form.Item label='Address' hasFeedback>
               {getFieldDecorator('address', {
@@ -169,4 +177,4 @@ class AddDataAction extends Component {
     )
   }
 }
-export default compose(graphql(ADD_COMPANY), graphql(GET_ALL_COMPANY))(Form.create()(AddDataAction))
+export default compose(graphql(ADD_COMPANY), graphql(GET_ALL_COMPANY))(Form.create()(CompanyAction))

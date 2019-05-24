@@ -58,7 +58,7 @@ export default class App extends Component {
     return (
       <Router>
         <Layout>
-          <MenuMobile isMobile={this.state.isMobile} visible={this.state.visible} closeMenuMobile={this.closeMenuMobile} />
+          <MenuMobile visible={this.state.visible} closeMenuMobile={this.closeMenuMobile} />
           <Sider
             collapsedWidth={this.state.isMobile ? 0 : 80}
             trigger={null}
