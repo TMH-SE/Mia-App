@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { Button, Form, Input, notification, Drawer, Radio } from 'antd'
-import { graphql, compose } from 'react-apollo'
-import { ADD_COMPANY, GET_ALL_COMPANY } from '../../../graphql/company.query'
+import { graphql, compose, withApollo } from 'react-apollo'
+import { ADD_COMPANY, GET_ALL_COMPANY, GET_COMPANY_BY_ID } from '../../../graphql/company.query'
 
 class CompanyAction extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      visible: false
+      visible: false,
+      idUpdate: ''
     }
     this.name = ''
     this.inputText = React.createRef()
@@ -15,6 +16,7 @@ class CompanyAction extends Component {
     this.closeDrawer = this.closeDrawer.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.focusInput = this.focusInput.bind(this)
+    //this.updateData = this.updateData.bind(this)
   }
 
   showDrawer () {
@@ -28,11 +30,30 @@ class CompanyAction extends Component {
       visible: false
     })
     this.props.form.resetFields()
+    this.props.cancelUpdate()
   }
 
   focusInput (visible) {
     if (visible) {
-      this.name.focus()
+      if (this.props.updateId === '') {
+        this.name.focus()
+      } else {
+        this.props.client.query({
+          query: GET_COMPANY_BY_ID,
+          variables: { id: this.props.updateId }
+        }).then(result => {
+          const { company } = result.data
+          this.props.form.setFieldsValue({
+            name: company.name,
+            address: company.address,
+            phone: company.phone,
+            email: company.email,
+            skype: company.skype,
+            note: company.note,
+            status: company.status
+          })
+        })
+      }
     }
   }
 
@@ -53,8 +74,6 @@ class CompanyAction extends Component {
               status: status
             }
           },
-          // update: (store, { data: { companies } }) => {
-          // }
           refetchQueries: [
             { query: GET_ALL_COMPANY }
           ]
@@ -105,7 +124,7 @@ class CompanyAction extends Component {
         <Drawer
           title='Add new company data'
           onClose={this.closeDrawer}
-          visible={this.state.visible}
+          visible={this.state.visible || this.props.updateId !== ''}
           width={this.props.isMobile ? '100%' : 720}
           afterVisibleChange={this.focusInput}
         >
@@ -177,4 +196,4 @@ class CompanyAction extends Component {
     )
   }
 }
-export default compose(graphql(ADD_COMPANY), graphql(GET_ALL_COMPANY))(Form.create()(CompanyAction))
+export default compose(withApollo, graphql(ADD_COMPANY), graphql(GET_ALL_COMPANY))(Form.create()(CompanyAction))

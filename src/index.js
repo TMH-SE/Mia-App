@@ -7,9 +7,10 @@ import 'ag-grid-community/dist/styles/ag-theme-balham.css'
 import App from './App'
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
+import { InMemoryCache } from 'apollo-cache-inmemory'
 import * as serviceWorker from './serviceWorker'
 
-const client = new ApolloClient({ uri: 'https://ptvqk.sse.codesandbox.io/graphql' })
+const client = new ApolloClient({ uri: 'https://ptvqk.sse.codesandbox.io/graphql', cache: new InMemoryCache() })
 
 const T = () => (
   <ApolloProvider client={client} >

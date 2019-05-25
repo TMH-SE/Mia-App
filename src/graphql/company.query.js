@@ -47,7 +47,7 @@ export const ADD_COMPANY = gql`
 
 export const DELETE_COMPANY = gql`
   mutation deleteCompany ($id: String) {
-    deleteCompany (companyId: $id){
+    deleteCompany (companyId: $id) {
       id
     }
   }

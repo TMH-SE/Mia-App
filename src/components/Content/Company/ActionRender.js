@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Popconfirm, Icon, Row } from 'antd'
+import { Button, Popconfirm, Icon, Row, notification } from 'antd'
 import { graphql, compose } from 'react-apollo'
 import { DELETE_COMPANY, GET_ALL_COMPANY } from '../../../graphql/company.query'
 
@@ -7,6 +7,8 @@ class ActionRender extends Component {
   constructor (props) {
     super(props)
     this.deleteCompany = this.deleteCompany.bind(this)
+    this.updateData = this.updateData.bind(this)
+    this.agGrid = this.props.agGridReact
   }
   deleteCompany () {
     const { id } = this.props.data
@@ -15,12 +17,22 @@ class ActionRender extends Component {
       refetchQueries: [
         { query: GET_ALL_COMPANY }
       ]
-    }).then(data => data)
+    }).then(data => notification.success({
+      message: 'Delete success!',
+      placement: 'bottomRight',
+      duration: 1.25
+    }))
       .catch(err => console.log(err))
   }
+
+  updateData () {
+    this.agGrid.props.updateData(this.props.data.id)
+  }
+
   render () {
     return (
-      <Row type='flex' justify='space-around'>
+      <Row>
+        <Button style={{ marginRight: '5px' }} size='small' icon='edit' onClick={this.updateData}>Modify</Button>
         <Popconfirm placement='topLeft' title='Are you sure?' onConfirm={this.deleteCompany} okText='Yes' cancelText='No'>
           <Button size='small' type='danger'><Icon type='delete' /> Delete</Button>
         </Popconfirm>
