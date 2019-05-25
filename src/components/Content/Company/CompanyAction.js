@@ -16,7 +16,6 @@ class CompanyAction extends Component {
     this.closeDrawer = this.closeDrawer.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.focusInput = this.focusInput.bind(this)
-    //this.updateData = this.updateData.bind(this)
   }
 
   showDrawer () {
