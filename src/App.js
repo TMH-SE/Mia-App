@@ -7,6 +7,7 @@ import TodoList from './components/Content/Todo/TodoList'
 import Profile from './components/Content/Profile/Profile'
 import MainCompany from './components/Content/Company/MainCompany'
 import MenuMobile from './components/MenuSider/MenuMobile'
+import HeaderMenu from './components/Header/HeaderMenu';
 
 const { Header, Sider, Content } = Layout
 export default class App extends Component {
@@ -76,6 +77,7 @@ export default class App extends Component {
                 type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
                 onClick={this.toggle}
               />
+              <HeaderMenu />
             </Header>
             <Content
               style={{

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Form, Input, notification, Drawer, Radio } from 'antd'
 import { graphql, compose, withApollo } from 'react-apollo'
-import { ADD_COMPANY, GET_ALL_COMPANY, GET_COMPANY_BY_ID } from '../../../graphql/company.query'
+import { ADD_COMPANY, GET_ALL_COMPANY, UPDATE_COMPANY } from '../../../graphql/company.query'
 
 class CompanyAction extends Component {
   constructor (props) {
@@ -34,23 +34,19 @@ class CompanyAction extends Component {
 
   focusInput (visible) {
     if (visible) {
-      if (this.props.updateId === '') {
+      if (this.props.updateData === null) {
         this.name.focus()
       } else {
-        this.props.client.query({
-          query: GET_COMPANY_BY_ID,
-          variables: { id: this.props.updateId }
-        }).then(result => {
-          const { company } = result.data
-          this.props.form.setFieldsValue({
-            name: company.name,
-            address: company.address,
-            phone: company.phone,
-            email: company.email,
-            skype: company.skype,
-            note: company.note,
-            status: company.status
-          })
+        const data = this.props.updateData
+        this.props.form.setFieldsValue({
+          name: data.name,
+          pic: data.pic,
+          address: data.address,
+          phone: data.phone,
+          email: data.email,
+          skype: data.skype,
+          note: data.note,
+          status: data.status
         })
       }
     }
@@ -60,33 +56,66 @@ class CompanyAction extends Component {
     e.preventDefault()
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        const { name, address, email, phone, skype, note, status } = values
-        this.props.mutate({
-          variables: {
-            addDto: {
-              name: name,
-              address: address,
-              email: email,
-              phone: phone,
-              skype: skype,
-              note: note,
-              status: status
-            }
-          },
-          refetchQueries: [
-            { query: GET_ALL_COMPANY }
-          ]
-        }).then((data) => {
-          notification.success({
-            message: 'Success!',
-            duration: 1.5,
-            placement: 'topLeft'
-          })
-          this.props.form.resetFields()
-          this.name.focus()
+        const { name, pic, address, email, phone, skype, note, status } = values
+        if (this.props.updateData === null) {
+          this.props.mutate({
+            mutation: ADD_COMPANY,
+            variables: {
+              addDto: {
+                name: name,
+                pic: pic,
+                address: address,
+                email: email,
+                phone: phone,
+                skype: skype,
+                note: note,
+                status: status
+              }
+            },
+            refetchQueries: [
+              { query: GET_ALL_COMPANY }
+            ]
+          }).then((data) => {
+            notification.success({
+              message: 'Success!',
+              duration: 1.5,
+              placement: 'topLeft'
+            })
+            this.props.form.resetFields()
+            this.name.focus()
+          }
+          )
+            .catch(err => console.log(err))
+        } else {
+          this.props.mutate({
+            mutation: UPDATE_COMPANY,
+            variables: {
+              updateDto: {
+                id: this.props.updateData.id,
+                name: name,
+                pic: pic,
+                address: address,
+                email: email,
+                phone: phone,
+                skype: skype,
+                note: note,
+                status: status
+              }
+            },
+            refetchQueries: [
+              { query: GET_ALL_COMPANY }
+            ]
+          }).then((data) => {
+            notification.success({
+              message: 'Success!',
+              duration: 1.5,
+              placement: 'topLeft'
+            })
+            this.closeDrawer()
+          }
+          )
+            .catch(err => console.log(err))
         }
-        )
-          .catch(err => console.log(err))
       }
     })
   }
@@ -101,15 +130,39 @@ class CompanyAction extends Component {
       if (value && !regexValid.test(value)) {
         callback('The input not valid Vietnam phone number')
       } else {
-        let flag = false
-        this.props.data.companies.forEach(c => {
-          if (c.phone === value) {
+        if (this.props.updateData === null) {
+          if (this.props.data.companies.some((c) => c.phone === value)) {
             callback('The phone already exists')
-            flag = true
+          } else {
+            callback()
           }
-        })
-        if (!flag) {
-          callback()
+          // let flag = false
+          // this.props.data.companies.forEach(c => {
+          //   if (c.phone === value) {
+          //     callback('The phone already exists')
+          //     flag = true
+          //   }
+          // })
+          // if (!flag) {
+          //   callback()
+          // }
+        } else {
+          if (this.props.data.companies.some((c) => c.phone === value && c.phone !== this.props.updateData.phone)) {
+            callback('The phone already exists')
+          } else {
+            callback()
+          }
+          // let flag = false
+          // this.props.data.companies.forEach(c => {
+          //   if (c.phone === value && c.phone !== this.props.updateData.phone) {
+          //     callback('The phone already exists')
+          //     flag = true
+          //   }
+          // })
+          // if (!flag) {
+          //   callback()
+          // }
+          // return callback()
         }
       }
     }
@@ -119,11 +172,11 @@ class CompanyAction extends Component {
     const { getFieldDecorator } = this.props.form
     return (
       <div>
-        <Button type='primary' icon='plus' onClick={this.showDrawer}>Add new record</Button>
+        <Button type='primary' icon='plus' onClick={this.showDrawer}>Add new company</Button>
         <Drawer
           title='Add new company data'
           onClose={this.closeDrawer}
-          visible={this.state.visible || this.props.updateId !== ''}
+          visible={this.state.visible || this.props.updateData !== null}
           width={this.props.isMobile ? '100%' : 720}
           afterVisibleChange={this.focusInput}
         >
@@ -133,6 +186,14 @@ class CompanyAction extends Component {
                 rules: [{
                   required: true,
                   message: 'Please input company name'
+                }]
+              })(<Input ref={node => (this.name = node)} />)}
+            </Form.Item>
+            <Form.Item label='PIC' hasFeedback>
+              {getFieldDecorator('pic', {
+                rules: [{
+                  required: true,
+                  message: 'Please input company PIC'
                 }]
               })(<Input ref={node => (this.name = node)} />)}
             </Form.Item>
@@ -187,7 +248,7 @@ class CompanyAction extends Component {
               )}
             </Form.Item>
             <Form.Item>
-              <Button type='primary' htmlType='submit'>Thêm</Button>
+              <Button type='primary' htmlType='submit'>{this.props.updateData === null ? 'Add data' : 'Save change'}</Button>
             </Form.Item>
           </Form>
         </Drawer>
@@ -195,4 +256,4 @@ class CompanyAction extends Component {
     )
   }
 }
-export default compose(withApollo, graphql(ADD_COMPANY), graphql(GET_ALL_COMPANY))(Form.create()(CompanyAction))
+export default compose(withApollo, graphql(ADD_COMPANY), graphql(UPDATE_COMPANY), graphql(GET_ALL_COMPANY))(Form.create()(CompanyAction))

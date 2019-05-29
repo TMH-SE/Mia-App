@@ -26,13 +26,13 @@ class ActionRender extends Component {
   }
 
   updateData () {
-    this.agGrid.props.updateData(this.props.data.id)
+    this.agGrid.props.updateData(this.props.data)
   }
 
   render () {
     return (
       <Row>
-        <Button style={{ marginRight: '5px' }} size='small' icon='edit' onClick={this.updateData}>Modify</Button>
+        <Button style={{ marginRight: '5px' }} type='primary' size='small' icon='edit' onClick={this.updateData}>Modify</Button>
         <Popconfirm placement='topLeft' title='Are you sure?' onConfirm={this.deleteCompany} okText='Yes' cancelText='No'>
           <Button size='small' type='danger'><Icon type='delete' /> Delete</Button>
         </Popconfirm>

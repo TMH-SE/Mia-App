@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
 import { Menu, Icon } from 'antd'
 import { Link } from 'react-router-dom'
+import logo from '../../logo.svg'
 
 export default class MenuSider extends Component {
   render () {
     return (
       <div>
-        <div className='logo'>Mia</div>
+        <div className='logo'>
+          <img src={logo} alt='logo' />
+          <h1>Mia App</h1>
+        </div>
         <Menu theme='dark' mode='inline' defaultSelectedKeys={['1']}>
           <Menu.Item className='menu-item' key='1'>
             <Link to='/'>

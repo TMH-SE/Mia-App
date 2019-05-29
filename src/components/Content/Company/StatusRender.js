@@ -11,7 +11,9 @@ export default class StatusRender extends Component {
 
   render () {
     return (
-      <Tag color={this.state.curStatus === 0 ? '#108ee9' : (this.state.curStatus === 1 ? '#f50' : '#52AC2B')}>{ this.state.curStatus === 0 ? 'Chưa gọi' : (this.state.curStatus === 1 ? 'Đã gọi' : 'Chờ gọi lại')}</Tag>
+      <Tag color={this.state.curStatus === 0 ? '#108ee9' : (this.state.curStatus === 1 ? '#f50' : '#52AC2B')}>
+        { this.state.curStatus === 0 ? 'Chưa gọi' : (this.state.curStatus === 1 ? 'Đã gọi' : 'Chờ gọi lại')}
+      </Tag>
     )
   }
 }

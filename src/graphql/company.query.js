@@ -5,6 +5,7 @@ export const GET_ALL_COMPANY = gql`
     companies {
       id,
       name,
+      pic,
       address,
       phone,
       email,
@@ -20,6 +21,7 @@ export const GET_COMPANY_BY_ID = gql`
     company(id: $id) {
       id,
       name,
+      pic,
       address,
       phone,
       email,
@@ -35,6 +37,7 @@ export const ADD_COMPANY = gql`
     addCompany(addCompanyDto: $addDto){
       id,
       name,
+      pic,
       address,
       phone,
       email,
@@ -54,10 +57,11 @@ export const DELETE_COMPANY = gql`
 `
 
 export const UPDATE_COMPANY = gql`
-  mutation updateCompany ($update: UpdateCompanyDto){
-    updateCompany(updateCompanyDto: $update){
+  mutation updateCompany ($updateDto: UpdateCompanyDto){
+    updateCompany(updateCompanyDto: $updateDto){
       id,
       name,
+      pic,
       address,
       phone,
       email,

@@ -8,18 +8,18 @@ export default class MainCompany extends Component {
     this.updateData = this.updateData.bind(this)
     this.cancelUpdate = this.cancelUpdate.bind(this)
     this.state = {
-      updateId: ''
+      updateData: null
     }
   }
 
   cancelUpdate () {
     this.setState({
-      updateId: ''
+      updateData: null
     })
   }
 
-  updateData (id) {
-    this.setState({ updateId: id })
+  updateData (data) {
+    this.setState({ updateData: data })
   }
 
   render () {
@@ -27,7 +27,7 @@ export default class MainCompany extends Component {
     return (
       <div>
         <div style={{ marginBottom: '15px' }}>
-          <CompanyAction updateId={this.state.updateId} cancelUpdate={this.cancelUpdate} isMobile={isMobile} />
+          <CompanyAction updateData={this.state.updateData} cancelUpdate={this.cancelUpdate} isMobile={isMobile} />
         </div>
         <DataList updateData={this.updateData} />
       </div>
