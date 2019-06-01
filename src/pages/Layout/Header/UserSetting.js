@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Dropdown, Menu, Avatar, Icon } from 'antd'
 import { withApollo } from 'react-apollo'
-import { USER } from '../../graphql/user.query'
+import { USER } from '../../../assets/graphql/user.query'
 
 class UserSetting extends Component {
   constructor (props) {
@@ -10,7 +10,7 @@ class UserSetting extends Component {
       name: ''
     }
     this.menu = (
-      <Menu onClick={this.onSelect.bind(this)}>
+      <Menu style={{ minWidth: '170px' }} onClick={this.onSelect.bind(this)}>
         <Menu.Item key='userCenter'>
           <Icon type='user' />
           <span>Account Center</span>
@@ -50,16 +50,16 @@ class UserSetting extends Component {
     if (key === 'logout') {
       window.localStorage.removeItem('token')
       window.localStorage.removeItem('id')
-      window.location.href = ''
+      window.location.href = '/🔞'
     }
   }
 
   render () {
     return (
       <Dropdown overlay={this.menu} placement='bottomRight'>
-        <div className='avatar'>
-          <Avatar style={{ backgroundColor: '#00a2ae', marginBottom: '4px' }} size={24} icon='dingding' />
-          <span style={{ marginLeft: '5px' }}>{this.state.name}</span>
+        <div className='account-menu'>
+          <Avatar className='avatar' style={{ backgroundColor: '#00a2ae' }} size={24} icon='dingding' />
+          <span>{this.state.name}</span>
         </div>
       </Dropdown>
     )

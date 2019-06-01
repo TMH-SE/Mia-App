@@ -19,27 +19,29 @@
 }
 
 .logo {
+  position: relative;
   height: 64px;
-  line-height: 60px;
-  align-items: center;
+  line-height: 64px;
   background: rgba(255, 255, 255, 0.9);
   padding: 0 16px;
   overflow: hidden;
-  transition: all 3ms;
+  transition: all .3s;
   transition-timing-function: linear;
 }
 
 .logo img {
   height: 48px;
   display: inline-block;
+  vertical-align: middle;
 }
 
 .logo h1 {
   display: inline-block;
   color: #000;
-  font-size: 24px;
-  margin-left: 10px;
+  font-size: 20px;
+  margin: 0 0 0 12px;
   font-family: 'Black Ops One', cursive;
+  vertical-align: middle;
 }
 
 .header-menu {
@@ -69,13 +71,24 @@
   margin-bottom: 4px;
 }
 
+.account-menu {
+  display: inline-block;
+  height: 100%;
+  line-height: 64px;
+}
+
+.avatar {
+  margin: 20px 8px 20px 0;
+  vertical-align: top;
+}
+
 /** Content style **/
 
 
 /** Login style **/
 .login-wrapper {
   height: 100vh;
-  background: url('background.jpg') no-repeat center center fixed;
+  background: url('./assets/images/background.jpg') no-repeat center center fixed;
   background-size: cover;
 }
 

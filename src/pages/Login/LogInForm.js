@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Input, Icon, Row, Col, Checkbox, Button, Spin, Alert } from 'antd'
 import { withApollo } from 'react-apollo'
-import { LOG_IN } from '../../graphql/user.query'
+import { LOG_IN } from '../../assets/graphql/user.query'
 
 class LogInForm extends Component {
   constructor (props) {
@@ -33,7 +33,7 @@ class LogInForm extends Component {
           setTimeout(() => {
             window.localStorage.setItem('id', id)
             window.localStorage.setItem('token', token)
-            window.location.href = ''
+            window.location.href = '/⚜️'
           }, 2000)
         })
           .catch(err => {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Popconfirm, Icon, Row, notification } from 'antd'
 import { graphql, compose } from 'react-apollo'
-import { DELETE_COMPANY, GET_ALL_COMPANY } from '../../../graphql/company.query'
+import { DELETE_COMPANY, GET_ALL_COMPANY } from '../../../assets/graphql/company.query'
 
 class ActionRender extends Component {
   constructor (props) {

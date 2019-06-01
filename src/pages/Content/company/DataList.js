@@ -1,15 +1,21 @@
 import React, { Component } from 'react'
 import { AgGridReact } from 'ag-grid-react'
-import { graphql, compose } from 'react-apollo'
-import { GET_ALL_COMPANY, UPDATE_COMPANY } from '../../../graphql/company.query'
+import { graphql, compose, withApollo } from 'react-apollo'
+import { withTranslation } from 'react-i18next'
+import { GET_ALL_COMPANY, UPDATE_COMPANY } from '../../../assets/graphql/company.query'
 import StatusRender from './StatusRender'
 import ActionRender from './ActionRender'
+import NoRowsOverlayCustorm from '../../../untils/NoRowsOverlayCustorm'
+import LoadingOverlayCustorm from '../../../untils/LoadingOverlayCustorm'
 
 class DataList extends Component {
   constructor (props) {
     super(props)
+    this.state = {
+      rowData: null
+    }
     this.columnDefs = [{
-      headerName: 'Action', field: '', filter: false, cellRenderer: 'actionRender'
+      headerName: this.props.t('Action'), field: '', filter: false, cellRenderer: 'actionRender'
     }, {
       headerName: 'Company Details',
       children: [
@@ -34,15 +40,36 @@ class DataList extends Component {
     }]
     this.frameworkComponents = {
       statusRenderer: StatusRender,
-      actionRender: ActionRender
+      actionRender: ActionRender,
+      noRowsOverlayComponent: NoRowsOverlayCustorm,
+      loadingOverlayComponent: LoadingOverlayCustorm
     }
     this.defaultColDef = {
       filter: true,
       cellStyle: { display: 'flex', alignItems: 'center' },
       resizable: true
     }
+    this.noRowsOverlayComponent = 'noRowsOverlayComponent'
+    this.loadingOverlayComponent = 'loadingOverlayComponent'
     this.updateData = this.updateData.bind(this)
     this.onCellValueChanged = this.onCellValueChanged.bind(this)
+    this.onGridReady = this.onGridReady.bind(this)
+  }
+
+  onGridReady (params) {
+    this.gridApi = params.api
+    this.gridColumnApi = params.columnApi
+    // this.props.client.query({
+    //   query: GET_ALL_COMPANY,
+    //   variables: {
+    //     userId: window.localStorage.getItem('id')
+    //   }
+    // }).then(r => {
+    //   this.setState({
+    //     rowData: r.data.companies
+    //   })
+    // }).catch(err => console.log(err))
+    // this.gridApi.sizeColumnsToFit()
   }
 
   updateData (data) {
@@ -63,11 +90,12 @@ class DataList extends Component {
           phone: phone,
           skype: skype,
           note: note,
-          status: parseInt(status)
+          status: parseInt(status),
+          user: window.localStorage.getItem('id')
         }
       },
       refetchQueries: [
-        { query: GET_ALL_COMPANY }
+        { query: GET_ALL_COMPANY, variables: { userId: window.localStorage.getItem('id') } }
       ]
     }).then()
       .catch(err => console.log(err))
@@ -83,14 +111,30 @@ class DataList extends Component {
           animateRows='true'
           rowHeight={40}
           columnDefs={this.columnDefs}
+          onGridReady={this.onGridReady}
           rowData={this.props.data.companies}
           frameworkComponents={this.frameworkComponents}
           pagination='true'
           floatingFilter='true'
           onCellValueChanged={this.onCellValueChanged}
+          enableRangeSelection='true'
+          loadingOverlayComponent={this.loadingOverlayComponent}
+          noRowsOverlayComponent={this.noRowsOverlayComponent}
+          // onFirstDataRendered={this.onFirstDataRendered.bind(this)}
+          // statusBar={this.state.statusBar}
         />
       </div>
     )
   }
 }
-export default compose(graphql(GET_ALL_COMPANY), graphql(UPDATE_COMPANY))(DataList)
+export default compose(
+  graphql(GET_ALL_COMPANY, {
+    options: {
+      variables: {
+        userId: window.localStorage.getItem('id')
+      }
+    }
+  }),
+  graphql(UPDATE_COMPANY),
+  withApollo
+)(withTranslation()(DataList))

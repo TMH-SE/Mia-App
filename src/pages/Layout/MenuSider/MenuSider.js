@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { Menu, Icon } from 'antd'
 import { Link } from 'react-router-dom'
-import logo from '../../logo.svg'
+import logo from '../../../assets/images/logo.svg'
+import { withTranslation } from 'react-i18next'
 
-export default class MenuSider extends Component {
+class MenuSider extends Component {
   render () {
+    const { t } = this.props
     return (
       <div>
         <div className='logo'>
@@ -13,21 +15,21 @@ export default class MenuSider extends Component {
         </div>
         <Menu theme='dark' mode='inline' defaultSelectedKeys={['1']}>
           <Menu.Item className='menu-item' key='1'>
-            <Link to='/'>
+            <Link to='/⚜️'>
               <Icon type='database' />
-              <span>Company Data</span>
+              <span>{t('Company Data')}</span>
             </Link>
           </Menu.Item>
           <Menu.Item className='menu-item' key='2'>
-            <Link to='/todo'>
+            <Link to='/⚜️/todo'>
               <Icon type='calendar' />
-              <span>Todo List</span>
+              <span>{t('Todo List')}</span>
             </Link>
           </Menu.Item>
           <Menu.Item className='menu-item' key='3'>
-            <Link to='profile'>
+            <Link to='/⚜️/profile'>
               <Icon type='user' />
-              <span>My Profile</span>
+              <span>{t('My Profile')}</span>
             </Link>
           </Menu.Item>
         </Menu>
@@ -35,3 +37,4 @@ export default class MenuSider extends Component {
     )
   }
 }
+export default withTranslation()(MenuSider)

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Button, Form, Input, notification, Drawer, Radio } from 'antd'
 import { graphql, compose, withApollo } from 'react-apollo'
-import { ADD_COMPANY, GET_ALL_COMPANY, UPDATE_COMPANY } from '../../../graphql/company.query'
+import { ADD_COMPANY, GET_ALL_COMPANY, UPDATE_COMPANY } from '../../../assets/graphql/company.query'
+import { withTranslation } from 'react-i18next'
 
 class CompanyAction extends Component {
   constructor (props) {
@@ -69,11 +70,12 @@ class CompanyAction extends Component {
                 phone: phone,
                 skype: skype,
                 note: note,
-                status: status
+                status: status,
+                user: window.localStorage.getItem('id')
               }
             },
             refetchQueries: [
-              { query: GET_ALL_COMPANY }
+              { query: GET_ALL_COMPANY, variables: { userId: window.localStorage.getItem('id') } }
             ]
           }).then((data) => {
             notification.success({
@@ -99,11 +101,12 @@ class CompanyAction extends Component {
                 phone: phone,
                 skype: skype,
                 note: note,
-                status: status
+                status: status,
+                user: window.localStorage.getItem('id')
               }
             },
             refetchQueries: [
-              { query: GET_ALL_COMPANY }
+              { query: GET_ALL_COMPANY, variables: { userId: window.localStorage.getItem('id') } }
             ]
           }).then((data) => {
             notification.success({
@@ -172,16 +175,16 @@ class CompanyAction extends Component {
     const { getFieldDecorator } = this.props.form
     return (
       <div>
-        <Button type='primary' icon='plus' onClick={this.showDrawer}>Add new company</Button>
+        <Button type='primary' icon='plus' onClick={this.showDrawer}>{this.props.t('Add new company')}</Button>
         <Drawer
-          title='Add new company data'
+          title={this.props.t('Add new company')}
           onClose={this.closeDrawer}
           visible={this.state.visible || this.props.updateData !== null}
           width={this.props.isMobile ? '100%' : 720}
           afterVisibleChange={this.focusInput}
         >
           <Form onSubmit={this.handleSubmit}>
-            <Form.Item label='Name' hasFeedback>
+            <Form.Item label={this.props.t('Name')} hasFeedback>
               {getFieldDecorator('name', {
                 rules: [{
                   required: true,
@@ -195,9 +198,9 @@ class CompanyAction extends Component {
                   required: true,
                   message: 'Please input company PIC'
                 }]
-              })(<Input ref={node => (this.name = node)} />)}
+              })(<Input />)}
             </Form.Item>
-            <Form.Item label='Address' hasFeedback>
+            <Form.Item label={this.props.t('Address')} hasFeedback>
               {getFieldDecorator('address', {
                 rules: [{
                   required: true,
@@ -216,7 +219,7 @@ class CompanyAction extends Component {
                 }]
               })(<Input />)}
             </Form.Item>
-            <Form.Item label='Phone' hasFeedback>
+            <Form.Item label={this.props.t('Phone')} hasFeedback>
               {getFieldDecorator('phone', {
                 rules: [{
                   required: true,
@@ -231,12 +234,12 @@ class CompanyAction extends Component {
                 rules: []
               })(<Input />)}
             </Form.Item>
-            <Form.Item label='Note'>
+            <Form.Item label={this.props.t('Note')}>
               {getFieldDecorator('note', {
                 rules: []
               })(<Input.TextArea rows={5} />)}
             </Form.Item>
-            <Form.Item label='Status'>
+            <Form.Item label={this.props.t('Status')}>
               {getFieldDecorator('status', {
                 initialValue: 0
               })(
@@ -256,4 +259,10 @@ class CompanyAction extends Component {
     )
   }
 }
-export default compose(withApollo, graphql(ADD_COMPANY), graphql(UPDATE_COMPANY), graphql(GET_ALL_COMPANY))(Form.create()(CompanyAction))
+export default compose(
+  withApollo,
+  graphql(ADD_COMPANY),
+  graphql(UPDATE_COMPANY), graphql(GET_ALL_COMPANY, {
+    options: { variables: { userId: window.localStorage.getItem('id') } }
+  })
+)(Form.create()(withTranslation()(CompanyAction)))

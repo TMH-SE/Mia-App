@@ -1,8 +1,8 @@
 import gql from 'graphql-tag'
 
 export const GET_ALL_COMPANY = gql`
-  query getAllCompany {
-    companies {
+  query getAll ($userId: String!) {
+    companies(userId: $userId) {
       id,
       name,
       pic,

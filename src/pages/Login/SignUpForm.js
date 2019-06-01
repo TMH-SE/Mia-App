@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Form, Input, Icon, Button, Spin, Alert } from 'antd'
 import Recaptcha from 'react-recaptcha'
 import { graphql } from 'react-apollo'
-import { CREATE_USER } from '../../graphql/user.query'
+import { CREATE_USER } from '../../assets/graphql/user.query'
 
 class SignUpForm extends Component {
   constructor (props) {
