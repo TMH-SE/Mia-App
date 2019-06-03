@@ -10,23 +10,6 @@ class UserSetting extends Component {
     this.state = {
       name: ''
     }
-    this.menu = (
-      <Menu style={{ minWidth: '170px' }} onClick={this.onSelect.bind(this)}>
-        <Menu.Item key='userCenter'>
-          <Icon type='user' />
-          <span>{props.t('Account information')}</span>
-        </Menu.Item>
-        <Menu.Item key='userinfo'>
-          <Icon type='setting' />
-          <span>{props.t('Change password')}</span>
-        </Menu.Item>
-        <Menu.Divider />
-        <Menu.Item key='logout'>
-          <Icon type='logout' />
-          <span>{props.t('Log out')}</span>
-        </Menu.Item>
-      </Menu>
-    )
   }
 
   componentDidMount () {
@@ -52,8 +35,25 @@ class UserSetting extends Component {
   }
 
   render () {
+    const menu = (
+      <Menu style={{ minWidth: '170px' }} onClick={this.onSelect.bind(this)}>
+        <Menu.Item key='userCenter'>
+          <Icon type='user' />
+          <span>{this.props.t('Account information')}</span>
+        </Menu.Item>
+        <Menu.Item key='userinfo'>
+          <Icon type='setting' />
+          <span>{this.props.t('Change password')}</span>
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key='logout'>
+          <Icon type='logout' />
+          <span>{this.props.t('Log out')}</span>
+        </Menu.Item>
+      </Menu>
+    )
     return (
-      <Dropdown overlay={this.menu} placement='bottomRight'>
+      <Dropdown overlay={menu} placement='bottomRight'>
         <div className='account-menu'>
           <Avatar className='avatar' style={{ backgroundColor: '#00a2ae' }} size={24} icon='dingding' />
           <span>{this.state.name}</span>

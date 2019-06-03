@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { Drawer, Menu, Icon } from 'antd'
 import { Link } from 'react-router-dom'
+import { withTranslation } from 'react-i18next'
+import logo from '../../../assets/images/logo.svg'
 
-export default class MenuMobile extends Component {
+class MenuMobile extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -13,32 +15,36 @@ export default class MenuMobile extends Component {
     this.props.closeMenuMobile()
   }
   render () {
+    const { t } = this.props
     return (
       <Drawer
-        title='Menu'
         closable={false}
         visible={this.props.visible}
         onClose={this.closeDrawer}
         placement='left'
         bodyStyle={{ padding: 0 }}
       >
+        <div className='logo'>
+          <img src={logo} alt='logo' />
+          <h1>Mia App</h1>
+        </div>
         <Menu theme='light' mode='inline' defaultSelectedKeys={['1']} onSelect={this.closeDrawer}>
           <Menu.Item className='menu-item' key='1'>
-            <Link to='/'>
+            <Link to='/⚜️'>
               <Icon type='database' />
-              <span>Company Data</span>
+              <span>{t('Company Data')}</span>
             </Link>
           </Menu.Item>
           <Menu.Item className='menu-item' key='2'>
-            <Link to='/todo'>
+            <Link to='/⚜️/todo'>
               <Icon type='calendar' />
-              <span>Todo List</span>
+              <span>{t('Todo List')}</span>
             </Link>
           </Menu.Item>
           <Menu.Item className='menu-item' key='3'>
-            <Link to='profile'>
+            <Link to='/⚜️/profile'>
               <Icon type='user' />
-              <span>My Profile</span>
+              <span>{t('My Profile')}</span>
             </Link>
           </Menu.Item>
         </Menu>
@@ -46,3 +52,4 @@ export default class MenuMobile extends Component {
     )
   }
 }
+export default withTranslation()(MenuMobile)

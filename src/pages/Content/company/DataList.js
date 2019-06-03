@@ -17,30 +17,6 @@ class DataList extends Component {
     this.state = {
       rowData: null
     }
-    this.columnDefs = [{
-      headerName: this.props.t('Action'), field: '', filter: false, cellRenderer: 'actionRender'
-    }, {
-      headerName: 'Company Details',
-      children: [
-        { headerName: 'Name', field: 'name', sortable: true, columnGroupShow: 'close', checkboxSelection: true },
-        { headerName: 'PIC', field: 'pic', sortable: true, columnGroupShow: 'open' },
-        { headerName: 'Address', field: 'address', sortable: true, columnGroupShow: 'open' }
-      ]
-    }, {
-      headerName: 'Company Contacts',
-      children: [
-        { headerName: 'Phone', field: 'phone', cellRenderer: (params) => '<a href="tel:' + params.value + '">' + params.value + '</a>', columnGroupShow: 'close' },
-        { headerName: 'Skype', field: 'skype', cellRenderer: (params) => '<a href="skype:live:' + params.value + '?chat">' + params.value + '</a>', columnGroupShow: 'close' },
-        { headerName: 'Email', field: 'email', cellRenderer: (params) => '<a href="mailto:' + params.value + '">' + params.value + '</a>', columnGroupShow: 'open' }
-      ]
-    }, {
-      headerName: 'Note', field: 'note'
-    }, {
-      headerName: 'Status',
-      field: 'status',
-      cellRenderer: 'statusRenderer',
-      editable: true
-    }]
     this.frameworkComponents = {
       statusRenderer: StatusRender,
       actionRender: ActionRender,
@@ -63,7 +39,6 @@ class DataList extends Component {
   onGridReady (params) {
     this.gridApi = params.api
     this.gridColumnApi = params.columnApi
-    console.log(this.gridApi)
     // this.props.client.query({
     //   query: GET_ALL_COMPANY,
     //   variables: {
@@ -117,6 +92,30 @@ class DataList extends Component {
 
   render () {
     const { t } = this.props
+    const columnDefs = [{
+      headerName: t('action'), field: '', filter: false, cellRenderer: 'actionRender'
+    }, {
+      headerName: t('company details'),
+      children: [
+        { headerName: t('Name'), field: 'name', sortable: true, columnGroupShow: 'close', checkboxSelection: true },
+        { headerName: 'PIC', field: 'pic', sortable: true, columnGroupShow: 'open' },
+        { headerName: t('Address'), field: 'address', sortable: true, columnGroupShow: 'open' }
+      ]
+    }, {
+      headerName: t('company contacts'),
+      children: [
+        { headerName: t('Phone'), field: 'phone', cellRenderer: (params) => '<a href="tel:' + params.value + '">' + params.value + '</a>', columnGroupShow: 'close' },
+        { headerName: 'Skype', field: 'skype', cellRenderer: (params) => '<a href="skype:live:' + params.value + '?chat">' + params.value + '</a>', columnGroupShow: 'close' },
+        { headerName: 'Email', field: 'email', cellRenderer: (params) => '<a href="mailto:' + params.value + '">' + params.value + '</a>', columnGroupShow: 'open' }
+      ]
+    }, {
+      headerName: t('Note'), field: 'note'
+    }, {
+      headerName: t('Status'),
+      field: 'status',
+      cellRenderer: 'statusRenderer',
+      editable: true
+    }]
     return (
       <div className='ag-theme-balham' style={{ height: '450px', width: '100%' }}>
         <div style={{ marginBottom: '10px', textAlign: 'right' }}>
@@ -128,7 +127,7 @@ class DataList extends Component {
           updateData={this.updateData}
           animateRows='true'
           rowHeight={40}
-          columnDefs={this.columnDefs}
+          columnDefs={columnDefs}
           onGridReady={this.onGridReady}
           rowData={this.props.data.companies}
           frameworkComponents={this.frameworkComponents}

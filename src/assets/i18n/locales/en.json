@@ -17,5 +17,8 @@
   "Export CSV": "Export CSV",
   "Account information": "Account information",
   "Change password": "Change password",
-  "Log out": "Log out"
+  "Log out": "Log out",
+  "action": "Action",
+  "company details": "Company details",
+  "company contacts": "Company contacts"
 }

@@ -10,8 +10,10 @@ class MenuSider extends Component {
     return (
       <div>
         <div className='logo'>
-          <img src={logo} alt='logo' />
-          <h1>Mia App</h1>
+          <Link to='/⚜️'>
+            <img src={logo} alt='logo' />
+            <h1>Mia App</h1>
+          </Link>
         </div>
         <Menu theme='dark' mode='inline' defaultSelectedKeys={['1']}>
           <Menu.Item className='menu-item' key='1'>
