@@ -173,18 +173,19 @@ class CompanyAction extends Component {
 
   render () {
     const { getFieldDecorator } = this.props.form
+    const { t } = this.props
     return (
       <div>
-        <Button type='primary' icon='plus' onClick={this.showDrawer}>{this.props.t('Add new company')}</Button>
+        <Button type='primary' shape='round' icon='plus' onClick={this.showDrawer}>{t('Add new company')}</Button>
         <Drawer
-          title={this.props.t('Add new company')}
+          title={t('Add new company')}
           onClose={this.closeDrawer}
           visible={this.state.visible || this.props.updateData !== null}
           width={this.props.isMobile ? '100%' : 720}
           afterVisibleChange={this.focusInput}
         >
           <Form onSubmit={this.handleSubmit}>
-            <Form.Item label={this.props.t('Name')} hasFeedback>
+            <Form.Item label={t('Name')} hasFeedback>
               {getFieldDecorator('name', {
                 rules: [{
                   required: true,
@@ -200,7 +201,7 @@ class CompanyAction extends Component {
                 }]
               })(<Input />)}
             </Form.Item>
-            <Form.Item label={this.props.t('Address')} hasFeedback>
+            <Form.Item label={t('Address')} hasFeedback>
               {getFieldDecorator('address', {
                 rules: [{
                   required: true,
@@ -219,7 +220,7 @@ class CompanyAction extends Component {
                 }]
               })(<Input />)}
             </Form.Item>
-            <Form.Item label={this.props.t('Phone')} hasFeedback>
+            <Form.Item label={t('Phone')} hasFeedback>
               {getFieldDecorator('phone', {
                 rules: [{
                   required: true,
@@ -234,12 +235,12 @@ class CompanyAction extends Component {
                 rules: []
               })(<Input />)}
             </Form.Item>
-            <Form.Item label={this.props.t('Note')}>
+            <Form.Item label={t('Note')}>
               {getFieldDecorator('note', {
                 rules: []
               })(<Input.TextArea rows={5} />)}
             </Form.Item>
-            <Form.Item label={this.props.t('Status')}>
+            <Form.Item label={t('Status')}>
               {getFieldDecorator('status', {
                 initialValue: 0
               })(
@@ -250,8 +251,9 @@ class CompanyAction extends Component {
                 </Radio.Group>
               )}
             </Form.Item>
-            <Form.Item>
-              <Button type='primary' htmlType='submit'>{this.props.updateData === null ? 'Add data' : 'Save change'}</Button>
+            <Form.Item style={{ textAlign: 'right', borderTop: '1px solid #e9e9e9', marginTop: '30px', paddingTop: '15px' }}>
+              <Button onClick={this.closeDrawer} style={{ marginRight: 8 }}>{t('Cancel')}</Button>
+              <Button type='primary' htmlType='submit'>{this.props.updateData === null ? t('Add data') : t('Save changes')}</Button>
             </Form.Item>
           </Form>
         </Drawer>

@@ -26,7 +26,7 @@ export default class MainCompany extends Component {
     const { isMobile } = this.props
     return (
       <div>
-        <div style={{ marginBottom: '15px' }}>
+        <div style={{ marginBottom: '15px', textAlign: 'right' }}>
           <CompanyAction updateData={this.state.updateData} cancelUpdate={this.cancelUpdate} isMobile={isMobile} />
         </div>
         <DataList updateData={this.updateData} />

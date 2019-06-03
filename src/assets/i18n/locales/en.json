@@ -10,5 +10,9 @@
   "Address": "Address",
   "Phone": "Phone",
   "Note": "Note",
-  "Status": "Status"
+  "Status": "Status",
+  "Add data": "Add data",
+  "Save changes": "Save changes",
+  "Cancel": "Cancel",
+  "Export CSV": "Export CSV"
 }

@@ -10,5 +10,9 @@
   "Address": "Địa chỉ",
   "Phone": "Số điện thoại",
   "Note": "Chú thích",
-  "Status": "Trạng thái"
+  "Status": "Trạng thái",
+  "Add data": "Thêm dữ liệu",
+  "Save changes": "Lưu thay đổi",
+  "Cancel": "Hủy bỏ",
+  "Export CSV": "Xuất CSV"
 }

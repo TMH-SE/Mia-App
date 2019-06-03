@@ -7,6 +7,9 @@ import StatusRender from './StatusRender'
 import ActionRender from './ActionRender'
 import NoRowsOverlayCustorm from '../../../untils/NoRowsOverlayCustorm'
 import LoadingOverlayCustorm from '../../../untils/LoadingOverlayCustorm'
+import { Button } from 'antd';
+
+const moment = require('moment')
 
 class DataList extends Component {
   constructor (props) {
@@ -54,11 +57,13 @@ class DataList extends Component {
     this.updateData = this.updateData.bind(this)
     this.onCellValueChanged = this.onCellValueChanged.bind(this)
     this.onGridReady = this.onGridReady.bind(this)
+    this.onExport = this.onExport.bind(this)
   }
 
   onGridReady (params) {
     this.gridApi = params.api
     this.gridColumnApi = params.columnApi
+    console.log(this.gridApi)
     // this.props.client.query({
     //   query: GET_ALL_COMPANY,
     //   variables: {
@@ -101,9 +106,22 @@ class DataList extends Component {
       .catch(err => console.log(err))
   }
 
+  onExport () {
+    let params = {
+      fileName: moment().format(),
+      onlySelectedAllPages: true,
+      columnKeys: ['name', 'pic', 'address', 'phone', 'skype', 'email', 'note', 'status']
+    }
+    this.gridApi.exportDataAsCsv(params)
+  }
+
   render () {
+    const { t } = this.props
     return (
       <div className='ag-theme-balham' style={{ height: '450px', width: '100%' }}>
+        <div style={{ marginBottom: '10px', textAlign: 'right' }}>
+          <Button type='primary' shape='round' icon='download' onClick={this.onExport}>{t('Export CSV')}</Button>
+        </div>
         <AgGridReact
           rowSelection='multiple'
           defaultColDef={this.defaultColDef}
