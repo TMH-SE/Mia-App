@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Dropdown, Menu, Avatar, Icon } from 'antd'
 import { withApollo } from 'react-apollo'
 import { USER } from '../../../assets/graphql/user.query'
+import { withTranslation } from 'react-i18next';
 
 class UserSetting extends Component {
   constructor (props) {
@@ -13,20 +14,16 @@ class UserSetting extends Component {
       <Menu style={{ minWidth: '170px' }} onClick={this.onSelect.bind(this)}>
         <Menu.Item key='userCenter'>
           <Icon type='user' />
-          <span>Account Center</span>
+          <span>{props.t('Account information')}</span>
         </Menu.Item>
         <Menu.Item key='userinfo'>
           <Icon type='setting' />
-          <span>Account Settings</span>
-        </Menu.Item>
-        <Menu.Item key='triggerError'>
-          <Icon type='close-circle' />
-          <span>Trigger Error</span>
+          <span>{props.t('Change password')}</span>
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item key='logout'>
           <Icon type='logout' />
-          <span>Log out</span>
+          <span>{props.t('Log out')}</span>
         </Menu.Item>
       </Menu>
     )
@@ -65,4 +62,4 @@ class UserSetting extends Component {
     )
   }
 }
-export default withApollo(UserSetting)
+export default withApollo(withTranslation()(UserSetting))
