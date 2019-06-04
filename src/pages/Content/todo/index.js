@@ -1,11 +1,24 @@
 import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
 
-export default class TodoList extends Component {
+@inject('store')
+@observer
+class TodoList extends Component {
   render () {
+    const tasks = this.props.store.globalStore.todo.tasks
     return (
       <div>
-        this is todo list
+        {tasks.map((t, i) => {
+          return (
+            <ul key={i}>
+              <li>{t.id}</li>
+              <li>{t.name}</li>
+              <li>{t.status}</li>
+            </ul>
+          )
+        })}
       </div>
     )
   }
 }
+export default TodoList

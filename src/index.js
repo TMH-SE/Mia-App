@@ -7,17 +7,21 @@ import 'ag-grid-community/dist/styles/ag-theme-balham.css'
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
 import { InMemoryCache } from 'apollo-cache-inmemory'
+import { Provider } from 'mobx-react'
 import * as serviceWorker from './serviceWorker'
 import Mia from './Mia'
 import { I18nextProvider } from 'react-i18next'
 import i18n from './untils/i18n'
+import MiaStore from './tools/mobx'
 
 const client = new ApolloClient({ uri: 'https://l3oc6.sse.codesandbox.io/graphql', cache: new InMemoryCache() })
 
 const T = () => (
   <ApolloProvider client={client} >
     <I18nextProvider i18n={i18n}>
-      <Mia />
+      <Provider store={MiaStore}>
+        <Mia />
+      </Provider>
     </I18nextProvider>
   </ApolloProvider>
 )

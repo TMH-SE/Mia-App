@@ -3,7 +3,10 @@ import { Button, Form, Input, notification, Drawer, Radio } from 'antd'
 import { graphql, compose, withApollo } from 'react-apollo'
 import { ADD_COMPANY, GET_ALL_COMPANY, UPDATE_COMPANY } from '../../../assets/graphql/company.query'
 import { withTranslation } from 'react-i18next'
+import { inject, observer } from 'mobx-react'
 
+@inject('store')
+@observer
 class CompanyAction extends Component {
   constructor (props) {
     super(props)
@@ -38,7 +41,8 @@ class CompanyAction extends Component {
       if (this.props.updateData === null) {
         this.name.focus()
       } else {
-        const data = this.props.updateData
+        console.log(this.props.store.globalStore.company.updateData.address)
+        const data = this.props.store.globalStore.company.updateData
         this.props.form.setFieldsValue({
           name: data.name,
           pic: data.pic,

@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import { Button, Popconfirm, Icon, Row, notification } from 'antd'
 import { graphql, compose } from 'react-apollo'
 import { DELETE_COMPANY, GET_ALL_COMPANY } from '../../../assets/graphql/company.query'
+import { observer, inject } from 'mobx-react'
 
+@inject('store')
+@observer
 class ActionRender extends Component {
   constructor (props) {
     super(props)
@@ -26,6 +29,7 @@ class ActionRender extends Component {
   }
 
   updateData () {
+    this.props.store.globalStore.company.updateData = this.props.data
     this.agGrid.props.updateData(this.props.data)
   }
 
