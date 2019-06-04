@@ -30,7 +30,6 @@ class DataList extends Component {
     }
     this.noRowsOverlayComponent = 'noRowsOverlayComponent'
     this.loadingOverlayComponent = 'loadingOverlayComponent'
-    this.updateData = this.updateData.bind(this)
     this.onCellValueChanged = this.onCellValueChanged.bind(this)
     this.onGridReady = this.onGridReady.bind(this)
     this.onExport = this.onExport.bind(this)
@@ -50,10 +49,6 @@ class DataList extends Component {
     //   })
     // }).catch(err => console.log(err))
     // this.gridApi.sizeColumnsToFit()
-  }
-
-  updateData (data) {
-    this.props.updateData(data)
   }
 
   onCellValueChanged (params) {
@@ -124,7 +119,6 @@ class DataList extends Component {
         <AgGridReact
           rowSelection='multiple'
           defaultColDef={this.defaultColDef}
-          updateData={this.updateData}
           animateRows='true'
           rowHeight={40}
           columnDefs={columnDefs}

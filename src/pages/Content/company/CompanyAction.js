@@ -14,8 +14,8 @@ class CompanyAction extends Component {
       visible: false,
       idUpdate: ''
     }
+    this.updateData = null
     this.name = ''
-    this.inputText = React.createRef()
     this.showDrawer = this.showDrawer.bind(this)
     this.closeDrawer = this.closeDrawer.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -33,16 +33,16 @@ class CompanyAction extends Component {
       visible: false
     })
     this.props.form.resetFields()
-    this.props.cancelUpdate()
+    this.props.store.globalStore.company.updateData = null
   }
 
   focusInput (visible) {
+    this.updateData = this.props.store.globalStore.company.updateData
     if (visible) {
-      if (this.props.updateData === null) {
+      if (this.updateData === null) {
         this.name.focus()
       } else {
-        console.log(this.props.store.globalStore.company.updateData.address)
-        const data = this.props.store.globalStore.company.updateData
+        const data = this.updateData
         this.props.form.setFieldsValue({
           name: data.name,
           pic: data.pic,
@@ -58,11 +58,12 @@ class CompanyAction extends Component {
   }
 
   handleSubmit (e) {
+    this.updateData = this.props.store.globalStore.company.updateData
     e.preventDefault()
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         const { name, pic, address, email, phone, skype, note, status } = values
-        if (this.props.updateData === null) {
+        if (this.updateData === null) {
           this.props.mutate({
             mutation: ADD_COMPANY,
             variables: {
@@ -97,7 +98,7 @@ class CompanyAction extends Component {
             mutation: UPDATE_COMPANY,
             variables: {
               updateDto: {
-                id: this.props.updateData.id,
+                id: this.updateData.id,
                 name: name,
                 pic: pic,
                 address: address,
@@ -128,6 +129,7 @@ class CompanyAction extends Component {
   }
 
   validatePhone (rule, value, callback) {
+    this.updateData = this.props.store.globalStore.company.updateData
     const form = this.props.form
     const regex = /[0-9]$/
     const regexValid = /^0\d{9,11}/
@@ -137,7 +139,7 @@ class CompanyAction extends Component {
       if (value && !regexValid.test(value)) {
         callback('The input not valid Vietnam phone number')
       } else {
-        if (this.props.updateData === null) {
+        if (this.updateData === null) {
           if (this.props.data.companies.some((c) => c.phone === value)) {
             callback('The phone already exists')
           } else {
@@ -154,14 +156,14 @@ class CompanyAction extends Component {
           //   callback()
           // }
         } else {
-          if (this.props.data.companies.some((c) => c.phone === value && c.phone !== this.props.updateData.phone)) {
+          if (this.props.data.companies.some((c) => c.phone === value && c.phone !== this.updateData.phone)) {
             callback('The phone already exists')
           } else {
             callback()
           }
           // let flag = false
           // this.props.data.companies.forEach(c => {
-          //   if (c.phone === value && c.phone !== this.props.updateData.phone) {
+          //   if (c.phone === value && c.phone !== this.updateData.phone) {
           //     callback('The phone already exists')
           //     flag = true
           //   }
@@ -184,7 +186,7 @@ class CompanyAction extends Component {
         <Drawer
           title={t('Add new company')}
           onClose={this.closeDrawer}
-          visible={this.state.visible || this.props.updateData !== null}
+          visible={this.state.visible || this.props.store.globalStore.company.updateData !== null}
           width={this.props.isMobile ? '100%' : 720}
           afterVisibleChange={this.focusInput}
         >
@@ -257,7 +259,7 @@ class CompanyAction extends Component {
             </Form.Item>
             <Form.Item style={{ textAlign: 'right', borderTop: '1px solid #e9e9e9', marginTop: '30px', paddingTop: '15px' }}>
               <Button onClick={this.closeDrawer} style={{ marginRight: 8 }}>{t('Cancel')}</Button>
-              <Button type='primary' htmlType='submit'>{this.props.updateData === null ? t('Add data') : t('Save changes')}</Button>
+              <Button type='primary' htmlType='submit'>{this.props.store.globalStore.company.updateData === null ? t('Add data') : t('Save changes')}</Button>
             </Form.Item>
           </Form>
         </Drawer>

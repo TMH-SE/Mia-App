@@ -18,7 +18,7 @@ class ActionRender extends Component {
     this.props.mutate({
       variables: { id: id },
       refetchQueries: [
-        { query: GET_ALL_COMPANY }
+        { query: GET_ALL_COMPANY, variables: { userId: window.localStorage.getItem('id') } }
       ]
     }).then(data => notification.success({
       message: 'Delete success!',
@@ -30,7 +30,6 @@ class ActionRender extends Component {
 
   updateData () {
     this.props.store.globalStore.company.updateData = this.props.data
-    this.agGrid.props.updateData(this.props.data)
   }
 
   render () {
