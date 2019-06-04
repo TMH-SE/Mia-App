@@ -86,7 +86,7 @@ class CompanyAction extends Component {
             notification.success({
               message: 'Success!',
               duration: 1.5,
-              placement: 'topLeft'
+              placement: 'bottomRight'
             })
             this.props.form.resetFields()
             this.name.focus()
@@ -117,7 +117,7 @@ class CompanyAction extends Component {
             notification.success({
               message: 'Success!',
               duration: 1.5,
-              placement: 'topLeft'
+              placement: 'bottomRight'
             })
             this.closeDrawer()
           }
