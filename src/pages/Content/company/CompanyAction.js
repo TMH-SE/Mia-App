@@ -98,7 +98,7 @@ class CompanyAction extends Component {
             mutation: UPDATE_COMPANY,
             variables: {
               updateDto: {
-                id: this.updateData.id,
+                _id: this.updateData._id,
                 name: name,
                 pic: pic,
                 address: address,

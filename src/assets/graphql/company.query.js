@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 export const GET_ALL_COMPANY = gql`
   query getAll ($userId: String!) {
     companies(userId: $userId) {
-      id,
+      _id,
       name,
       pic,
       address,
@@ -19,7 +19,7 @@ export const GET_ALL_COMPANY = gql`
 export const GET_COMPANY_BY_ID = gql`
   query getCompanyById ($id: String!){
     company(id: $id) {
-      id,
+      _id,
       name,
       pic,
       address,
@@ -35,7 +35,7 @@ export const GET_COMPANY_BY_ID = gql`
 export const ADD_COMPANY = gql`
   mutation addCompany ($addDto: AddCompanyDto){
     addCompany(addCompanyDto: $addDto){
-      id,
+      _id,
       name,
       pic,
       address,
@@ -51,7 +51,7 @@ export const ADD_COMPANY = gql`
 export const DELETE_COMPANY = gql`
   mutation deleteCompany ($id: String) {
     deleteCompany (companyId: $id) {
-      id
+      _id
     }
   }
 `
@@ -59,7 +59,7 @@ export const DELETE_COMPANY = gql`
 export const UPDATE_COMPANY = gql`
   mutation updateCompany ($updateDto: UpdateCompanyDto){
     updateCompany(updateCompanyDto: $updateDto){
-      id,
+      _id,
       name,
       pic,
       address,

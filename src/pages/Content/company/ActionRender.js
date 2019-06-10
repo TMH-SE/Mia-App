@@ -14,9 +14,9 @@ class ActionRender extends Component {
     this.agGrid = this.props.agGridReact
   }
   deleteCompany () {
-    const { id } = this.props.data
+    const { _id } = this.props.data
     this.props.mutate({
-      variables: { id: id },
+      variables: { id: _id },
       refetchQueries: [
         { query: GET_ALL_COMPANY, variables: { userId: window.localStorage.getItem('id') } }
       ]

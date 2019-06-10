@@ -12,7 +12,7 @@ export const LOG_IN = gql`
 export const CREATE_USER = gql`
   mutation createUser($userInfo: CreateUserInfoDto){
     createUser(userInfo: $userInfo){
-      id,
+      name,
       username,
       password
     }
@@ -20,8 +20,8 @@ export const CREATE_USER = gql`
 `
 
 export const USER = gql`
-  query user ($id: String!) {
-    user (id: $id) {
+  query getUser ($id: String!) {
+    user (userId: $id) {
       name
     }
   }
